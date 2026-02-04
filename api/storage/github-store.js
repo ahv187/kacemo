@@ -33,7 +33,7 @@ const getJsonStore = async (path) => {
         const response = await axios.get(apiUrl, {
             headers: {
             Authorization: `token ${GITHUB_TOKEN}`,
-            Accept: 'application/vnd.github.raw+json'
+            Accept: 'application/vnd.github.com.v3.raw'
             }
         });
         return ok(response.data);
@@ -55,7 +55,7 @@ const setJsonStore = async (path, data, message="Update JSON store") =>  {
           }, {
             headers: {
               Authorization: `token ${GITHUB_TOKEN}`,
-              Accept: 'application/vnd.github+json'
+              Accept: 'application/vnd.github.v3+json'
             }
           });
         return ok();
@@ -73,7 +73,7 @@ const pushIssue = async (title, body) => {
         }, {
             headers: {
                 Authorization: `token ${GITHUB_TOKEN}`,
-                Accept: 'application/vnd.github+json'
+                Accept: 'application/vnd.github.v3+json'
             }
         });
         return ok();
