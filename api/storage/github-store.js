@@ -119,6 +119,6 @@ const setRawStore = async (path, base64, mimetype, message="Set raw store") => {
     }
 };
 
-module.exports = [
+module.exports = {
     getObject, storeExists, setJsonStore, getJsonStore, pushIssue, getIssues, setRawStore 
-]
+};

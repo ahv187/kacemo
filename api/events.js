@@ -1,6 +1,6 @@
 const { authorizeApiCall } = require('./auth');
 const { pushIssue, getIssues } = require('./storage/github-store');
-const { handleCorsPreflight } = require('util');
+const { handleCorsPreflight } = require('./util');
 
 module.exports = async (req, res) => {
   if(handleCorsPreflight(req, res)) { return; }

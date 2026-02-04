@@ -29,6 +29,6 @@ const authorizeApiCall = (req, res) => {
   return true;
 };
 
-module.exports = [
+module.exports = {
   authorizeApiCall, AUTHORIZED_EMAILS
-];
+};
