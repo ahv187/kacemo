@@ -32,11 +32,7 @@ export const AuthProvider = ({ children }) => {
         const decodedUser = jwtDecode(storedToken);
         if (decodedUser.exp * 1000 < Date.now()) {
           console.log('Token expired.');
-          // logout here without navigate, let the consumer handle navigation
-          sessionStorage.removeItem('app_jwt_token');
-          setUser(null);
-          setToken(null);
-          delete axios.defaults.headers.common['Authorization'];
+          logout(null)
         } else {
           setUser(decodedUser);
           setToken(storedToken);
@@ -44,11 +40,7 @@ export const AuthProvider = ({ children }) => {
         }
       } catch (error) {
         console.error('Failed to decode token:', error);
-        // logout here without navigate, let the consumer handle navigation
-        sessionStorage.removeItem('app_jwt_token');
-        setUser(null);
-        setToken(null);
-        delete axios.defaults.headers.common['Authorization'];
+        logout(null)
       }
     }
   }, []); // useEffect dependency array changed to empty, as logout is not directly called here anymore

@@ -18,6 +18,7 @@ const AuthCallback = () => {
         try {
           // Call backend endpoint to exchange code for our app's JWT
           const response = await axios.get(`/api/auth/google/exchange-code?code=${code}&state=${state}`);
+          console.log(response);
           const { token } = response.data; // Assuming backend returns { token: "..." }
 
           if (token) {

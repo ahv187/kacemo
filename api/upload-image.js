@@ -5,8 +5,8 @@ const { promisify } = require('util');
 const { AUTHORIZED_EMAILS } = require('./auth/auth'); // Corrected import path (now in api/auth/auth.js) (now in api/auth/auth.js)
 
 // Environment Variables
-const GITHUB_USERNAME = 'rlaplaza';
-const GITHUB_REPONAME = 'kacemo_web';
+const GITHUB_USERNAME = 'ahv187';
+const GITHUB_REPONAME = 'kacemo';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // App's PAT
 const JWT_SECRET = process.env.JWT_SECRET;
 const IMAGE_UPLOAD_PATH = 'public/event-posters'; // Folder in GitHub repo to store images

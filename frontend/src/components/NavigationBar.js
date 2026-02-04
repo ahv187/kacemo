@@ -30,9 +30,6 @@ const NavigationBar = () => {
                 <LinkContainer to="/add-event">
                   <Nav.Link>Añadir Evento</Nav.Link>
                 </LinkContainer>
-                <LinkContainer to="/add-venue">
-                  <Nav.Link>Añadir Lugar</Nav.Link>
-                </LinkContainer>
               </>
             )}
           </Nav>
