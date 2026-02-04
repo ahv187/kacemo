@@ -66,7 +66,6 @@ const setJsonStore = async (path, data, message="Update JSON store") =>  {
 
 const pushIssue = async (title, body) => {
     const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPONAME}/issues`;
-    const { title, body } = req.body;
     try {
         await axios.post(apiUrl, {
             title,
