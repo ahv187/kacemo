@@ -9,6 +9,6 @@ const handleCorsPreflight = async (req, res) => {
     return false;
 };
 
-module.exports = [
+module.exports = {
     handleCorsPreflight
-];
+};
