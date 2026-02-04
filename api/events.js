@@ -10,11 +10,11 @@ module.exports = async (req, res) => {
       let issues = await getIssues();
       res.status(200).json(issues.unpack().data);
     } else if (req.method === 'POST') {
-      // if(!authorizeApiCall(req, res)) { return; }
+      if(!authorizeApiCall(req, res)) { return; }
 
       const { title, body } = req.body;
-      let response = await pushIssue(title, body);
-      res.status(201).json(response.unpack().data);
+      (await pushIssue(title, body)).unpack();
+      res.status(201).json({ message: '¡Evento añadido correctamente!' });
     } else {
       res.status(405).end(`Method ${req.method} Not Allowed`);
     }
