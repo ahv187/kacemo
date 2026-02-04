@@ -22,7 +22,7 @@
       "includeFiles": "api/auth.js"
     },
     "api/events.js": {
-      "includeFiles": ["api/auth.js", "api/util.js"]
+      "includeFiles": "*(api/auth.js|api/util.js)"
     },
     "api/venues.js": {
       "includeFiles": "api/auth.js"
