@@ -4,8 +4,8 @@ const GITHUB_USERNAME = 'ahv187';
 const GITHUB_REPONAME = 'kacemo';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN; 
 
-const ok = (data=null) => { return { failed: false, data: data } };
-const err = (error=null) => { return { failed: true, error: error } };
+const ok = (data=null) => { return { failed: false, data: data, unpack: () => { return data; } } };
+const err = (error=null) => { return { failed: true, error: error, unpack: () => { throw error; } } };
 
 const getObject = async (path) => {
     const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPONAME}/contents/${path}`;
@@ -83,6 +83,21 @@ const pushIssue = async (title, body) => {
     }
 };
 
+const getIssues = async () => {
+    const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPONAME}/issues`;
+    try {
+        const response = await axios.get(apiUrl, {
+            headers: {
+              Authorization: `token ${GITHUB_TOKEN}`,
+              Accept: 'application/vnd.github.v3+json'
+            }
+        });
+        return ok(response.data);
+    } catch(error) {
+        return err(error);
+    }
+}
+
 const setRawStore = async (path, base64, mimetype, message="Set raw store") => {
     const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPONAME}/contents/${path}`;
     const store = getObject(`${path}.json`);
@@ -104,3 +119,7 @@ const setRawStore = async (path, base64, mimetype, message="Set raw store") => {
         return err(error);
     }
 };
+
+module.exports = [
+    getObject, storeExists, setJsonStore, getJsonStore, pushIssue, getIssues, setRawStore 
+]
