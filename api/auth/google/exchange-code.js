@@ -71,7 +71,8 @@ module.exports = async (req, res) => {
     // Redirect back to frontend, passing the appToken in fragment
     const redirectFrontendUrl = state || '/'; // Use 'state' for frontend redirect
     console.log('Generated App JWT for user:', userEmail);
-    return res.redirect(`${redirectFrontendUrl}#token=${appToken}`);
+    return res.send({ 'token': appToken });
+    // return res.redirect(`${redirectFrontendUrl}#token=${appToken}`);
 
   } catch (error) {
     console.error('Error during Google OAuth code exchange:', error);
