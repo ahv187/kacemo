@@ -7,14 +7,14 @@ module.exports = async (req, res) => {
 
   try {
     if (req.method === 'GET') {
-      issues = await getIssues();
+      let issues = await getIssues();
       res.status(200).json(issues.unpack().data);
     } else if (req.method === 'POST') {
       if(!authorizeApiCall(req, res)) { return; }
 
       const { title, body } = req.body;
-      response = await pushIssue(title, body);
-      res.status(201).json(response.data);
+      let response = await pushIssue(title, body);
+      res.status(201).json(response.unpack().data);
     } else {
       res.status(405).end(`Method ${req.method} Not Allowed`);
     }

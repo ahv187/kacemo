@@ -18,7 +18,7 @@ const authorizeApiCall = (req, res) => {
   try {
     decoded = jwt.verify(token, JWT_SECRET);
   } catch (err) {
-     es.status(401).json({ message: 'Token inválido o expirado.' });
+    res.status(401).json({ message: 'Token inválido o expirado.' });
     return false;
   }
 
