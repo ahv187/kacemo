@@ -13,8 +13,8 @@ module.exports = async (req, res) => {
       if(!authorizeApiCall(req, res)) { return; }
 
       const { title, body } = req.body;
-      (await pushIssue(title, body)).unpack();
-      res.status(201).json({ message: '¡Evento añadido correctamente!' });
+      let response = await pushIssue(title, body);
+      res.status(201).json(response.unpack().data);
     } else {
       res.status(405).end(`Method ${req.method} Not Allowed`);
     }
