@@ -2,8 +2,8 @@ const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const { AUTHORIZED_EMAILS } = require('./auth'); // Corrected import path (auth.js is now directly in api/)
 
-const GITHUB_USERNAME = 'rlaplaza';
-const GITHUB_REPONAME = 'kacemo_web';
+const GITHUB_USERNAME = 'ahv187';
+const GITHUB_REPONAME = 'kacemo';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // Application's PAT for GitHub API calls
 const JWT_SECRET = process.env.JWT_SECRET;
 const VENUES_FILE_PATH = 'frontend/src/data/venues.json';
