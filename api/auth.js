@@ -30,5 +30,5 @@ const authorizeApiCall = (req, res) => {
 };
 
 module.exports = [
-  authorizeApiCall
+  authorizeApiCall, AUTHORIZED_EMAILS
 ];
