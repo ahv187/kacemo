@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
       let issues = await getIssues();
       res.status(200).json(issues.unpack().data);
     } else if (req.method === 'POST') {
-      if(!authorizeApiCall(req, res)) { return; }
+      // if(!authorizeApiCall(req, res)) { return; }
 
       const { title, body } = req.body;
       let response = await pushIssue(title, body);
