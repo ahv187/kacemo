@@ -1,0 +1,241 @@
+/* Aliases so existing naming still works */
+:root {
+  --color-bg-dark: var(--color-bg);
+  --color-text-light: var(--color-text);
+
+  --color-neutral-dark: var(--color-surface-1);
+  --color-neutral-medium: var(--color-surface-2);
+  --color-neutral-light: var(--color-text-muted);
+
+  /* Keep these, but we won’t use them broadly anymore */
+  --color-highlight-blue: var(--color-highlight);
+  --color-highlight-green: var(--color-event);
+  --color-highlight-red: var(--color-now);
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar (no blue border) */
+.navbar {
+  background-color: rgba(23, 26, 33, 0.86) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border-soft);
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar-brand,
+.nav-link {
+  color: var(--color-text-light) !important;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* Hover stays monochrome (no blue) */
+.navbar-brand:hover,
+.nav-link:hover {
+  opacity: 0.92;
+}
+
+.navbar-text {
+  color: var(--color-neutral-light) !important;
+}
+
+/* Optional: keep user “online” indicator subtle but colored? 
+   If you want *only calendar* color, set this to muted instead. */
+.navbar-text .text-info {
+  color: var(--color-neutral-light) !important;
+}
+
+/* Layout spacing */
+.container.mt-4 {
+  flex-grow: 1;
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-7);
+}
+
+/* Headings: monochrome, minimal */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-light);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  margin: 0 0 var(--space-5);
+}
+
+/* Forms */
+.form-label {
+  color: var(--color-text-muted);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.form-control,
+.form-select {
+  background-color: rgba(23, 26, 33, 0.75);
+  color: var(--color-text-light);
+
+  /* Visible boundaries (important for non-text contrast) */
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+
+  padding: 0.6rem 0.75rem;
+  box-shadow: none;
+}
+
+.form-control::placeholder {
+  color: var(--color-text-faint);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: rgba(23, 26, 33, 0.92);
+  color: var(--color-text-light);
+  border-color: rgba(255,255,255,.35);
+  box-shadow: var(--focus-ring);
+}
+
+/* Buttons: neutral styling (no blue) */
+.btn {
+  border-radius: var(--radius-sm);
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease, transform 80ms ease;
+}
+
+.btn:active {
+  transform: translateY(0.5px);
+}
+
+.btn-primary {
+  background-color: rgba(236, 238, 243, 0.92);
+  border-color: rgba(236, 238, 243, 0.92);
+  color: #0C0D10;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.btn-primary:hover {
+  background-color: rgba(236, 238, 243, 0.82);
+  border-color: rgba(236, 238, 243, 0.82);
+  color: #0C0D10;
+}
+
+.btn-outline-light {
+  color: var(--color-text-light);
+  border-color: var(--color-border-strong);
+  background-color: transparent;
+}
+
+.btn-outline-light:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.30);
+  color: var(--color-text-light);
+}
+
+/* Alerts: if you want *only calendar* color, make these neutral too */
+.alert-success {
+  background-color: rgba(39, 174, 96, 0.14);
+  color: var(--color-text-light);
+  border: 1px solid rgba(39, 174, 96, 0.35);
+}
+.alert-danger {
+  background-color: rgba(235, 87, 87, 0.14);
+  color: var(--color-text-light);
+  border: 1px solid rgba(235, 87, 87, 0.35);
+}
+
+/* Cards */
+.card {
+  background-color: rgba(23, 26, 33, 0.72) !important;
+  border: 1px solid var(--color-border-soft) !important;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.card-header {
+  background-color: rgba(31, 35, 48, 0.62) !important;
+  border-bottom: 1px solid var(--color-border-soft) !important;
+  font-weight: 600;
+}
+
+/* React Big Calendar overrides */
+.rbc-calendar {
+  background-color: rgba(23, 26, 33, 0.72);
+  border: 1px solid var(--color-border-soft);
+  color: var(--color-text-light);
+  font-family: var(--font-sans);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.rbc-header {
+  background-color: rgba(31, 35, 48, 0.55);
+  color: var(--color-text-light);
+  font-weight: 700;
+  border-bottom: 1px solid var(--color-border-soft);
+  padding: var(--space-3) 0;
+}
+
+.rbc-off-range-bg {
+  background-color: rgba(15, 17, 21, 0.92);
+}
+
+.rbc-date-cell {
+  color: var(--color-text-muted);
+}
+
+.rbc-button-link {
+  color: var(--color-text-light);
+}
+
+/* Toolbar controls keep neutral borders */
+.rbc-toolbar button {
+  color: var(--color-text-light);
+  background-color: rgba(23, 26, 33, 0.55);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+}
+.rbc-toolbar button:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.30);
+}
+
+/* ✅ Color used ONLY for highlights */
+.rbc-today {
+  /* Today highlight (accent color) */
+  background-color: rgba(47, 128, 237, 0.08);
+  border: 1px solid rgba(47, 128, 237, 0.38);
+  border-radius: 6px;
+}
+
+/* Current time indicator stays a clear highlight */
+.rbc-current-time-indicator {
+  background-color: var(--color-highlight-red);
+}
+
+/* Events are green highlight */
+.rbc-event {
+  background-color: rgba(39, 174, 96, 0.88);
+  border: 1px solid rgba(39, 174, 96, 0.88);
+  color: #0B0F14;
+  font-weight: 700;
+  border-radius: 6px;
+  opacity: 0.96;
+}
+.rbc-event:hover { opacity: 1; }
+.rbc-event-content { color: #0B0F14; }
+
+.rbc-month-view .rbc-day-bg + .rbc-day-bg,
+.rbc-time-view .rbc-day-bg + .rbc-day-bg,
+.rbc-time-header.rbc-overflowing {
+  border-left: 1px solid var(--color-border-soft);
+}
+
+.rbc-row-segment .rbc-event-content {
+  white-space: normal;
+}

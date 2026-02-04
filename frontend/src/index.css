@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&family=Roboto+Mono:wght@400;600;700&display=swap');
+
+:root {
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-display: 'Montserrat', var(--font-sans);
+  --font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+
+  --text-size: 16px;
+  --line-height: 1.55;
+
+  /* Spacing rhythm (4px scale) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+
+  /* Radii / shadows */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.35);
+  --shadow-md: 0 10px 30px rgba(0,0,0,.35);
+
+  /* Grayscale palette (primary UI) */
+  --color-bg: #0F1115;
+  --color-surface-1: #171A21;
+  --color-surface-2: #1F2330;
+
+  /* Borders: keep boundaries visible for controls */
+  --color-border-soft: rgba(255,255,255,.08);
+  --color-border-strong: rgba(255,255,255,.22);
+
+  /* Text */
+  --color-text: #ECEEF3;
+  --color-text-muted: rgba(236, 238, 243, 0.72);
+  --color-text-faint: rgba(236, 238, 243, 0.52);
+
+  /* Highlights only (use sparingly) */
+  --color-highlight: #2F80ED;   /* for “today” highlight (optional) */
+  --color-event: #27AE60;       /* calendar events */
+  --color-now: #EB5757;         /* current time indicator */
+
+  /* Neutral focus ring (no blue) */
+  --focus-ring: 0 0 0 0.22rem rgba(236, 238, 243, 0.18);
+}
+
+/* Base */
+html { font-size: var(--text-size); }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  line-height: var(--line-height);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Subtle gradient but still grayscale */
+  background:
+    radial-gradient(1000px circle at 20% -10%, rgba(255, 255, 255, 0.05), transparent 55%),
+    radial-gradient(800px circle at 90% 0%, rgba(255, 255, 255, 0.035), transparent 55%),
+    linear-gradient(180deg, #0F1115 0%, #0C0D10 100%);
+  background-attachment: fixed;
+
+  color: var(--color-text);
+}
+
+code, pre, kbd, samp { font-family: var(--font-mono); }
+
+/* Global links: minimal + mostly monochrome */
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(236, 238, 243, 0.25);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+  transition: opacity 140ms ease, text-decoration-color 140ms ease;
+}
+
+a:hover {
+  opacity: 0.92;
+  text-decoration-color: rgba(236, 238, 243, 0.55);
+}
+
+a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 6px;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 6px;
+}
+
+/* Optional: consistent paragraph spacing */
+p, ul, ol {
+  margin: 0 0 var(--space-4);
+}
+
