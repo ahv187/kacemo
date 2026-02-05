@@ -60,7 +60,7 @@ module.exports = async (req, res) => {
     const path = `${IMAGE_UPLOAD_PATH}/${filename}`;
     const base64Content = fileBuffer.toString('base64');
 
-    (await setRawStore(path, base64Content, mimetype, 'Imagen de evento subido correctamente')).unpack();
+    (await setRawStore(path, base64Content, mimetype, 0, 'Imagen de evento subido correctamente')).unpack();
 
     res.status(200).json({ url: getStorePublicURL(path), message: 'Imagen subida correctamente.' });
   } catch (error) {

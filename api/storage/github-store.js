@@ -54,7 +54,7 @@ const setJsonStore = async (path, data, sha=-1, message="Update JSON store") => 
         await axios.put(apiUrl, {
             message: `${message}: ${path}`,
             content: Buffer.from(JSON.stringify(data,null,2)).toString('base64'),
-            sha: sha
+          ...(sha) && {sha: sha}
           }, {
             headers: {
               Authorization: `token ${GITHUB_TOKEN}`,
@@ -100,15 +100,18 @@ const getIssues = async () => {
     }
 }
 
-const setRawStore = async (path, base64, mimetype, message="Set raw store") => {
+const setRawStore = async (path, base64, mimetype, sha=-1, message="Set raw store") => {
     const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPONAME}/contents/${path}`;
-    const store = await getObject(`${path}.json`);
-    const sha = store.failed ? 0 : store.unpack().sha;
+    if (sha < 0) {
+        const store = await getObject(`${path}.json`);
+        const sha = store.failed ? 0 : store.unpack().sha;
+    }
+    
     try {
         await axios.put(apiUrl, {
           message: `${message}: ${fileName} with type ${mimetype}`,
           content: base64,
-          sha: sha
+          ...(sha) && {sha: sha}
         }, {
           headers: {
             Authorization: `token ${GITHUB_TOKEN}`,

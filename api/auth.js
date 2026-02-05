@@ -6,6 +6,10 @@ const AUTHORIZED_EMAILS = [
   'adrianohernanvillar@gmail.com'
 ];
 
+const userAuthorized = (email) => {
+  return AUTHORIZED_EMAILS.includes(email);
+}
+
 const authorizeApiCall = (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -22,7 +26,7 @@ const authorizeApiCall = (req, res) => {
     return false;
   }
 
-  if (!AUTHORIZED_EMAILS.includes(decoded.email)) {
+  if (!userAuthorized(decoded.email)) {
     res.status(403).json({ message: `Acceso Denegado: Tu correo electrónico (${decoded.email}) no está autorizado para crear eventos.` });
     return false;
   }
@@ -30,5 +34,5 @@ const authorizeApiCall = (req, res) => {
 };
 
 module.exports = {
-  authorizeApiCall, AUTHORIZED_EMAILS
+  authorizeApiCall, userAuthorized
 };
