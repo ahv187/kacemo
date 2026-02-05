@@ -8,8 +8,18 @@ module.exports = async (req, res) => {
 
   try {
     if (req.method === 'GET') {
-      const venues = await getJsonStore(VENUES_FILE_PATH); 
-      res.status(200).json(venues.unpack());
+      //const venues = await getJsonStore(VENUES_FILE_PATH); 
+      //res.status(200).json(venues.unpack());
+      res.status(200).json([
+  {
+    name: "Bar Arvellanita",
+    address: "Calle Abril 12, 41009 Sevilla"
+  },
+  {
+    name: "Bar Guadiana",
+    address: "Calle Guadiana, 29, 41002, Sevilla"
+  }
+]);
     } else if (req.method === 'PUT') {
       if(!authorizeApiCall(req, res)) { return; }
 
