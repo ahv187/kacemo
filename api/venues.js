@@ -1,35 +1,67 @@
-const { authorizeApiCall } = require('./auth');
-const { getJsonStore, setJsonStore } = require('./storage/github-store');
-const { handleCorsPreflight } = require('./cors');
-const VENUES_FILE_PATH = 'frontend/src/data/venues';
+const axios = require('axios');
+const jwt = require('jsonwebtoken');
+const { AUTHORIZED_EMAILS } = require('./auth'); // Corrected import path (auth.js is now directly in api/)
+
+const GITHUB_USERNAME = 'ahv187';
+const GITHUB_REPONAME = 'kacemo';
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // Application's PAT for GitHub API calls
+const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = async (req, res) => {
-  if(handleCorsPreflight(req, res)) { return; }
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,PUT');
+    res.setHeader('Access-Control-Allow-Headers', 'Authorization, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+    res.status(204).end();
+    return;
+  }
+
+  const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPONAME}/issues`;
 
   try {
+    // For GET requests (reading events), no authentication is strictly needed,
+    // as issues in a public repo are public. However, if a user's token
+    // were to be used for private repo access, it would be passed here.
     if (req.method === 'GET') {
-      //const venues = await getJsonStore(VENUES_FILE_PATH); 
-      //res.status(200).json(venues.unpack());
-      res.status(200).json([
-  {
-    name: "Bar Arvellanita",
-    address: "Calle Abril 12, 41009 Sevilla"
-  },
-  {
-    name: "Bar Guadiana",
-    address: "Calle Guadiana, 29, 41002, Sevilla"
-  }
-]);
-    } else if (req.method === 'PUT') {
-      if(!authorizeApiCall(req, res)) { return; }
+      const response = await axios.get(apiUrl, {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`, // Use app's GITHUB_TOKEN for public repo reads
+          Accept: 'application/vnd.github.v3+json'
+        }
+      });
+      res.status(200).json(response.data);
+    } else if (req.method === 'POST') {
+      // For POST requests (creating events), authentication and authorization are required.
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Autenticación requerida: Token Bearer faltante.' });
+      }
+      const token = authHeader.split(' ')[1];
 
-      const { name, address } = req.body;
-      let venues = (await getJsonStore(VENUES_FILE_PATH)).unpack(); 
+      let decoded;
+      try {
+        decoded = jwt.verify(token, JWT_SECRET);
+      } catch (err) {
+        return res.status(401).json({ message: 'Token inválido o expirado.' });
+      }
 
-      venues.push({ name:name, address:address });
+      // Check if the authenticated user is authorized to create events
+      if (!AUTHORIZED_EMAILS.includes(decoded.email)) {
+        return res.status(403).json({ message: `Acceso Denegado: Tu correo electrónico (${decoded.email}) no está autorizado para crear eventos.` });
+      }
 
-      (await setJsonStore(VENUES_FILE_PATH, venues)).unpack();
-      res.status(200).json({ message: 'Venue added correctly' });
+      const { title, body } = req.body;
+      const response = await axios.post(apiUrl, {
+        title,
+        body
+      }, {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`, // Use app's GITHUB_TOKEN to create issue
+          Accept: 'application/vnd.github.v3+json'
+        }
+      });
+      res.status(201).json(response.data);
     } else {
       res.status(405).end(`Method ${req.method} Not Allowed`);
     }
