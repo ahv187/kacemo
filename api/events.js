@@ -1,42 +1,35 @@
 const { authorizeApiCall } = require('./auth');
 const { pushIssue, getIssues } = require('./storage/github-store');
 const { handleCorsPreflight } = require('./util');
-const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET;
-const { AUTHORIZED_EMAILS } = require('./auth'); 
+// const jwt = require('jsonwebtoken');
+// const JWT_SECRET = process.env.JWT_SECRET;
+// const { AUTHORIZED_EMAILS } = require('./auth'); 
 
 module.exports = async (req, res) => {
-  // if(handleCorsPreflight(req, res)) { return; }
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,PUT');
-    res.setHeader('Access-Control-Allow-Headers', 'Authorization, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
-    res.status(204).end();
-    return;
-  }
-
+  if(handleCorsPreflight(req, res)) { return; }
+  
   try {
     if (req.method === 'GET') {
       let issues = await getIssues();
       res.status(200).json(issues.unpack());
     } else if (req.method === 'POST') {
-      // if(!authorizeApiCall(req, res)) { return; }
-      const authHeader = req.headers.authorization;
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ message: 'Autenticación requerida: Token Bearer faltante.' });
-      }
-      const token = authHeader.split(' ')[1];
+      if(!authorizeApiCall(req, res)) { return; }
+      // const authHeader = req.headers.authorization;
+      // if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      //   return res.status(401).json({ message: 'Autenticación requerida: Token Bearer faltante.' });
+      // }
+      // const token = authHeader.split(' ')[1];
     
-      let decoded;
-      try {
-        decoded = jwt.verify(token, JWT_SECRET);
-      } catch (err) {
-        return res.status(401).json({ message: 'Token inválido o expirado.' });
-      }
+      // let decoded;
+      // try {
+      //   decoded = jwt.verify(token, JWT_SECRET);
+      // } catch (err) {
+      //   return res.status(401).json({ message: 'Token inválido o expirado.' });
+      // }
     
-      if (!AUTHORIZED_EMAILS.includes(decoded.email)) {
-        return res.status(403).json({ message: `Acceso Denegado: Tu correo electrónico (${decoded.email}) no está autorizado para crear eventos.` });
-      }
+      // if (!AUTHORIZED_EMAILS.includes(decoded.email)) {
+      //   return res.status(403).json({ message: `Acceso Denegado: Tu correo electrónico (${decoded.email}) no está autorizado para crear eventos.` });
+      // }
       
       const { title, body } = req.body;
       let response = await pushIssue(title, body);
