@@ -109,7 +109,7 @@ const setRawStore = async (path, base64, mimetype, sha=-1, message="Set raw stor
     
     try {
         await axios.put(apiUrl, {
-          message: `${message}: ${fileName} with type ${mimetype}`,
+          message: `${message}: ${path} with type ${mimetype}`,
           content: base64,
           ...(sha) && {sha: sha}
         }, {
