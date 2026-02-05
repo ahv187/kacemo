@@ -14,7 +14,8 @@ module.exports = async (req, res) => {
 
       const { title, body } = req.body;
       let response = await pushIssue(title, body);
-      res.status(201).json(response.unpack().data);
+      response.unpack();
+      res.status(201).json({ message: 'Event added successfully' });
     } else {
       res.status(405).end(`Method ${req.method} Not Allowed`);
     }
