@@ -36,7 +36,7 @@ const getJsonStore = async (path) => {
             Accept: 'application/vnd.github.com.v3.raw'
             }
         });
-        return ok(JSON.parse(response.data));
+        return ok(response.data);
     } catch (error) {
         return err(error);
     }
@@ -46,8 +46,8 @@ const getJsonStore = async (path) => {
 const setJsonStore = async (path, data, sha=-1, message="Update JSON store") =>  {
     const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPONAME}/contents/${path}.json`;
     if (sha < 0) {
-        const store = getObject(`${path}.json`);
-        sha = store.failed ? '' : store.data.sha;
+        const store = await getObject(`${path}.json`);
+        sha = store.failed ? '' : store.unpack().sha;
     }
     
     try {
@@ -102,8 +102,8 @@ const getIssues = async () => {
 
 const setRawStore = async (path, base64, mimetype, message="Set raw store") => {
     const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPONAME}/contents/${path}`;
-    const store = getObject(`${path}.json`);
-    const sha = store.failed ? 0 : store.data.sha;
+    const store = await getObject(`${path}.json`);
+    const sha = store.failed ? 0 : store.unpack().sha;
     try {
         await axios.put(apiUrl, {
           message: `${message}: ${fileName} with type ${mimetype}`,
