@@ -68,6 +68,6 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: `Error de Multer: ${error.message}` });
     }
     console.error('Error durante la subida de imagen:', error.response ? error.response.data : error.message);
-    res.status(500).json({ message: 'Error al subir la imagen.' });
+    res.status(500).json({ message: error });
   }
 };
