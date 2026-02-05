@@ -1,6 +1,6 @@
 const { authorizeApiCall } = require('./auth');
-const { getJsonStore, setJsonStore, getObject } = require('./storage/github-store');
-const { handleCorsPreflight } = require('./util');
+const { getJsonStore, setJsonStore } = require('./storage/github-store');
+const { handleCorsPreflight } = require('./cors');
 const VENUES_FILE_PATH = 'frontend/src/data/venues';
 
 module.exports = async (req, res) => {
@@ -14,10 +14,10 @@ module.exports = async (req, res) => {
       if(!authorizeApiCall(req, res)) { return; }
 
       const { name, address } = req.body;
-      const venues = (await getJsonStore(VENUES_FILE_PATH)).unpack(); 
+      let venues = (await getJsonStore(VENUES_FILE_PATH)).unpack(); 
 
       venues.push({ name, address });
-      
+
       (await setJsonStore(VENUES_FILE_PATH, venues)).unpack();
       res.status(200).json({ message: 'Venue added correctly' });
     } else {
