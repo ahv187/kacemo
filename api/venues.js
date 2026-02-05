@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
       const { name, address } = req.body;
       let venues = (await getJsonStore(VENUES_FILE_PATH)).unpack(); 
 
-      venues.push({ name, address });
+      venues.push({ name:name, address:address });
 
       (await setJsonStore(VENUES_FILE_PATH, venues)).unpack();
       res.status(200).json({ message: 'Venue added correctly' });
