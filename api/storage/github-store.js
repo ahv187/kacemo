@@ -122,6 +122,10 @@ const setRawStore = async (path, base64, mimetype, message="Set raw store") => {
     }
 };
 
+const getStorePublicURL = (path) => {
+    return `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPONAME}/main/${path}`;
+};
+
 module.exports = {
-    getObject, storeExists, setJsonStore, getJsonStore, pushIssue, getIssues, setRawStore 
+    getObject, storeExists, setJsonStore, getJsonStore, pushIssue, getIssues, setRawStore, getStorePublicURL
 };
