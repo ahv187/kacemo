@@ -4,7 +4,7 @@ const { handleCorsPreflight } = require('./cors');
 const VENUES_FILE_PATH = 'frontend/src/data/venues';
 
 module.exports = async (req, res) => {
-  //if(handleCorsPreflight(req, res)) { return; }
+  handleCorsPreflight(req, res);
 
   try {
     if (req.method === 'GET') {
