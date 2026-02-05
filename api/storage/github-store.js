@@ -36,21 +36,24 @@ const getJsonStore = async (path) => {
             Accept: 'application/vnd.github.com.v3.raw'
             }
         });
-        return ok(response.data);
+        return ok(JSON.parse(response.data));
     } catch (error) {
         return err(error);
     }
     
 };
 
-const setJsonStore = async (path, data, message="Update JSON store") =>  {
+const setJsonStore = async (path, data, sha=-1, message="Update JSON store") =>  {
     const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPONAME}/contents/${path}.json`;
-    const store = getObject(`${path}.json`);
-    const sha = store.failed ? 0 : store.data.sha;
+    if (sha < 0) {
+        const store = getObject(`${path}.json`);
+        sha = store.failed ? '' : store.data.sha;
+    }
+    
     try {
         await axios.put(apiUrl, {
             message: `${message}: ${path}`,
-            content: Buffer.from(data).toString('base64'),
+            content: Buffer.from(JSON.stringify(data,null,2)).toString('base64'),
             sha: sha
           }, {
             headers: {
